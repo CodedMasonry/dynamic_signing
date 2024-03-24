@@ -6,6 +6,7 @@ edition = "2021"
 authors = ["Brock Shaffer <109301662+CodedMasonry@users.noreply.github.com>"]
 description = "A client for connecting with the dynamic signing server"
 
+# Windows distribution data
 [package.metadata.wix]
 upgrade-guid = "F0D207D0-BD00-499A-A31F-ACC59FA92417"
 path-guid = "562D1CB6-7468-4308-8B89-78DB6B8AAFE3"
@@ -17,6 +18,11 @@ slint = "1.5.1"
 
 [build-dependencies]
 slint-build = "1.5.1"
+
+# The profile that 'cargo dist' will build with
+[profile.dist]
+inherits = "release"
+lto = "thin"
 
 [profile.dev]
 debug = 0

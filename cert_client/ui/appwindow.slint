@@ -1,21 +1,58 @@
 import { Button, VerticalBox } from "std-widgets.slint";
 
-export component AppWindow inherits Window {
-    in-out property<int> counter: 42;
-    callback request-increase-value();
+export enum MenuOptions { home, servers, settings}
 
-    VerticalBox {
+export global WindowSettings {
+    in-out property <MenuOptions> activeMenu;
+}
+
+component Icon inherits Image {
+    in property <MenuOptions> menu;
+    width: 36px;
+    height: 36px;
+    colorize: Colors.white;
+
+    TouchArea {
+        clicked => {
+            WindowSettings.activeMenu = menu;
+        }
+    }
+    // Add tooltips
+}
+
+component sideBar inherits Rectangle {
+    width: 5%;
+    height: 100%;
+    background: gray;
+
+    VerticalLayout {
         padding: 5px;
         spacing: 10px;
+        alignment: start;
+        Icon {
+            menu: MenuOptions.home;
+            source: @image-url("icons/home.svg");
+        }
 
-        Text {
-            text: "Counter: \{root.counter}";
+        Icon {
+            menu: MenuOptions.servers;
+            source: @image-url("icons/server.svg");
         }
-        Button {
-            text: "Increase value";
-            clicked => {
-                root.request-increase-value();
-            }
+
+        Icon {
+            menu: MenuOptions.settings;
+            source: @image-url("icons/settings.svg");
         }
+    }
+}
+
+export component AppWindow inherits Window {
+    in-out property <MenuOptions> currentMenu;
+    min-width: 400px;
+    min-height: 300px;
+    icon: @image-url("icons/cert.svg");
+    title: "Certificate Client";
+    HorizontalLayout {
+        sideBar { }
     }
 }
