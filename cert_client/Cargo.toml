@@ -13,3 +13,16 @@ license = false
 eula = false
 
 [dependencies]
+slint = "1.5.1"
+
+[build-dependencies]
+slint-build = "1.5.1"
+
+[profile.dev]
+debug = 0
+
+[profile.release]
+opt-level = "z"
+strip = true
+lto = true
+panic = "abort"
