@@ -1,0 +1,15 @@
+[package]
+repository = "https://github.com/CodedMasonry/dynamic_signing"
+name = "cert_client"
+version = "0.1.0"
+edition = "2021"
+authors = ["Brock Shaffer <109301662+CodedMasonry@users.noreply.github.com>"]
+description = "A client for connecting with the dynamic signing server"
+
+[package.metadata.wix]
+upgrade-guid = "F0D207D0-BD00-499A-A31F-ACC59FA92417"
+path-guid = "562D1CB6-7468-4308-8B89-78DB6B8AAFE3"
+license = false
+eula = false
+
+[dependencies]

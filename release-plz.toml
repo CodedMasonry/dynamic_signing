@@ -1,0 +1,2 @@
+[workspace]
+changelog_config = "config/git-cliff.toml"
