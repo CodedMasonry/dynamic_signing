@@ -1,5 +1,3 @@
-cargo-features = ["codegen-backend"]
-
 [workspace]
 repository = "https://github.com/CodedMasonry/dynamic_signing"
 resolver = "2"
