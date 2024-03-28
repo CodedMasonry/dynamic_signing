@@ -1,4 +1,4 @@
-import { Button, VerticalBox } from "std-widgets.slint";
+import { Button, VerticalBox, Palette } from "std-widgets.slint";
 
 export enum MenuOptions { home, servers, settings}
 
@@ -10,25 +10,40 @@ component Icon inherits Image {
     in property <MenuOptions> menu;
     width: 36px;
     height: 36px;
-    colorize: Colors.white;
+    colorize: Palette.alternate-foreground;
 
-    TouchArea {
+    animate colorize {
+         duration: 100ms;
+         easing: ease-in-out;
+    }
+
+    touch := TouchArea {
         clicked => {
             WindowSettings.activeMenu = menu;
         }
     }
+
+    states [
+        active when WindowSettings.activeMenu == menu: {
+            root.colorize: Palette.accent-background;
+        }
+        active-hover when touch.has-hover: {
+            root.colorize: Palette.accent-foreground;
+        }
+    ]
     // Add tooltips
 }
 
 component sideBar inherits Rectangle {
-    width: 5%;
-    height: 100%;
-    background: gray;
+    width: 48px;
+    background: Palette.alternate-background;
 
+    // Top Bottoms
     VerticalLayout {
         padding: 5px;
         spacing: 10px;
         alignment: start;
+        
         Icon {
             menu: MenuOptions.home;
             source: @image-url("icons/home.svg");
@@ -38,6 +53,12 @@ component sideBar inherits Rectangle {
             menu: MenuOptions.servers;
             source: @image-url("icons/server.svg");
         }
+    }
+    // Bottom buttons
+    VerticalLayout {
+        padding: 5px;
+        spacing: 10px;
+        alignment: end;
 
         Icon {
             menu: MenuOptions.settings;
@@ -46,13 +67,44 @@ component sideBar inherits Rectangle {
     }
 }
 
+component menu inherits VerticalLayout {
+    padding: 5px;
+    spacing: 10px;
+    alignment: start;
+
+}
+
+component home inherits menu {
+    Button {
+        text: "home";
+    }
+}
+component servers inherits menu {
+    Button {
+        text: "servers";
+    }
+}
+component settings inherits menu {
+    Button {
+        text: "settings";
+    }
+}
+
 export component AppWindow inherits Window {
     in-out property <MenuOptions> currentMenu;
-    min-width: 400px;
-    min-height: 300px;
+    min-width: 900px;
+    min-height: 600px;
     icon: @image-url("icons/cert.svg");
     title: "Certificate Client";
     HorizontalLayout {
         sideBar { }
+        Rectangle {
+            width: 1px;
+            background: Palette.border;
+            drop-shadow-blur: 5px;
+        }
+        if WindowSettings.activeMenu == MenuOptions.home : home {}
+        if WindowSettings.activeMenu == MenuOptions.servers : servers {}
+        if WindowSettings.activeMenu == MenuOptions.settings : settings {}
     }
 }

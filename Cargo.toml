@@ -18,3 +18,17 @@ targets = ["aarch64-apple-darwin", "x86_64-apple-darwin", "x86_64-unknown-linux-
 pr-run-mode = "plan"
 # Whether to install an updater program
 install-updater = true
+
+# The profile that 'cargo dist' will build with
+[profile.dist]
+inherits = "release"
+lto = "thin"
+
+[profile.dev]
+debug = 0
+
+[profile.release]
+opt-level = 3
+strip = true
+lto = true
+panic = "abort"
